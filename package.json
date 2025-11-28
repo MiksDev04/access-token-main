@@ -1,0 +1,21 @@
+{
+  "name": "firebase-api-vercel",
+  "version": "1.0.0",
+  "description": "Firebase API endpoints for external systems - deployed on Vercel",
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "api/index.js",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "start": "node server.js",
+    "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "express": "^5.1.0"
+  }
+}

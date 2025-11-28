@@ -1,0 +1,8 @@
+node_modules
+.env
+.env.local
+.env.production
+private-key.json
+*.log
+.vercel
+.DS_Store
