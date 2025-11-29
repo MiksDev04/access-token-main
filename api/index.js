@@ -82,6 +82,7 @@ export default async function handler(req, res) {
           "GET /api/firestore/:collection",
           "GET /api/firestore/:collection/:documentId",
           "POST /api/firestore/:collection/:documentId",
+          "PATCH /api/firestore/:collection/:documentId",
           "DELETE /api/firestore/:collection/:documentId"
         ]
       });
@@ -128,7 +129,7 @@ export default async function handler(req, res) {
       }
 
       // Create/Update document
-      if (method === 'POST' && collection && documentId) {
+      if ((method === 'POST' || method === 'PATCH') && collection && documentId) {
         const url = `https://firestore.googleapis.com/v1/projects/${projectId}/databases/(default)/documents/${collection}/${documentId}`;
         
         // Convert request body to Firestore format
