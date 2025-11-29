@@ -14,6 +14,10 @@ async function getAccessToken() {
   }
 
   // Get service account from environment
+  if (!process.env.FIREBASE_SERVICE_ACCOUNT) {
+    throw new Error("FIREBASE_SERVICE_ACCOUNT environment variable is not set");
+  }
+  
   const sa = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
   
   const payload = {
