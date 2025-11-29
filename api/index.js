@@ -22,7 +22,7 @@ async function getAccessToken() {
   
   const payload = {
     iss: sa.client_email,
-    scope: "https://www.googleapis.com/auth/firebase https://www.googleapis.com/auth/userinfo.email",
+    scope: "https://www.googleapis.com/auth/datastore https://www.googleapis.com/auth/firebase https://www.googleapis.com/auth/userinfo.email",
     aud: "https://oauth2.googleapis.com/token",
     iat: now,
     exp: now + 3600
