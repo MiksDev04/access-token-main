@@ -71,8 +71,11 @@ export default async function handler(req, res) {
 
   // Skip API key check for health endpoint
   if (path !== '/health' && path !== '/') {
-    // Check API key
-    const apiKey = req.headers['x-api-key'];
+    // Check API key (from header or query parameter)
+    const apiKeyHeader = req.headers['x-api-key'];
+    const apiKeyQuery = new URL(url, `http://${req.headers.host}`).searchParams.get('apiKey') || 
+                        new URL(url, `http://${req.headers.host}`).searchParams.get('api_key');
+    const apiKey = apiKeyHeader || apiKeyQuery;
     const validApiKey = process.env.API_KEY;
 
     if (!validApiKey) {
@@ -82,7 +85,7 @@ export default async function handler(req, res) {
     if (!apiKey || apiKey !== validApiKey) {
       return res.status(401).json({ 
         error: "Unauthorized", 
-        message: "Valid API key required. Include 'X-API-Key' header in your request." 
+        message: "Valid API key required. Include 'X-API-Key' header or '?apiKey=' query parameter." 
       });
     }
   }
