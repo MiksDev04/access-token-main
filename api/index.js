@@ -58,7 +58,7 @@ export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Methods', 'GET,OPTIONS,PATCH,DELETE,POST,PUT');
   res.setHeader(
     'Access-Control-Allow-Headers',
-    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version'
+    'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-API-Key'
   );
 
   if (req.method === 'OPTIONS') {
@@ -68,6 +68,25 @@ export default async function handler(req, res) {
 
   const { method, url } = req;
   const path = url.split('?')[0];
+
+  // Skip API key check for health endpoint
+  if (path !== '/health' && path !== '/') {
+    // Check API key
+    const apiKey = req.headers['x-api-key'];
+    const validApiKey = process.env.API_KEY;
+
+    if (!validApiKey) {
+      return res.status(500).json({ error: "API_KEY not configured on server" });
+    }
+
+    if (!apiKey || apiKey !== validApiKey) {
+      return res.status(401).json({ 
+        error: "Unauthorized", 
+        message: "Valid API key required. Include 'X-API-Key' header in your request." 
+      });
+    }
+  }
+
   const pathParts = path.split('/').filter(Boolean);
 
   try {
